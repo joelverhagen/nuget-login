@@ -17,11 +17,9 @@ async function run(): Promise<void> {
 
         // Mask OIDC tokens and URLs
         core.setSecret(oidcRequestToken);
-        core.setSecret(oidcRequestUrl);
 
         const tokenUrl: string = `${oidcRequestUrl}&audience=${encodeURIComponent(nugetAudience)}`;
-        core.setSecret(tokenUrl);
-        core.info('Requesting GitHub OIDC token');
+        core.info('Requesting GitHub OIDC token from: ${tokenUrl}');
 
         const http: httpm.HttpClient = new httpm.HttpClient();
         const tokenResponse = await http.getJson<{ value?: string }>(tokenUrl, {
