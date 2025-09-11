@@ -47,7 +47,20 @@ async function run(): Promise<void> {
 
         if (response.message.statusCode !== 200) {
             const errorBody = await response.readBody();
-            throw new Error(`Token exchange failed (${response.message.statusCode}): ${errorBody}`);
+            let errorMessage = `Token exchange failed (${response.message.statusCode})`;
+
+            try {
+                const errorJson = JSON.parse(errorBody);
+                if (errorJson && typeof errorJson.error === 'string') {
+                    errorMessage += `: ${errorJson.error}`;
+                } else {
+                    errorMessage += `: ${errorBody}`;
+                }
+            } catch {
+                errorMessage += `: ${errorBody}`;
+            }
+
+            throw new Error(errorMessage);
         }
 
         const responseBody = await response.readBody();
