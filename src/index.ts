@@ -19,7 +19,7 @@ async function run(): Promise<void> {
         core.setSecret(oidcRequestToken);
 
         const tokenUrl: string = `${oidcRequestUrl}&audience=${encodeURIComponent(nugetAudience)}`;
-        core.info('Requesting GitHub OIDC token from: ${tokenUrl}');
+        core.info(`Requesting GitHub OIDC token from: ${tokenUrl}`);
 
         const http: httpm.HttpClient = new httpm.HttpClient();
         const tokenResponse = await http.getJson<{ value?: string }>(tokenUrl, {
