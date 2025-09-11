@@ -60,8 +60,6 @@ async function run(): Promise<void> {
                 errorMessage += `: ${errorBody}`;
             }
 
-            // Ensure username is shown as-is (not JSON-escaped)
-            errorMessage = errorMessage.replace(/\\u0027/g, "'").replace(/\\u0022/g, '"');
             throw new Error(errorMessage);
         }
 
