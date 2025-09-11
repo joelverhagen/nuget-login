@@ -15,6 +15,9 @@ async function run(): Promise<void> {
             throw new Error('Missing GitHub OIDC request environment variables.');
         }
 
+        // Mask OIDC tokens and URLs
+        core.setSecret(oidcRequestToken);
+
         const tokenUrl: string = `${oidcRequestUrl}&audience=${encodeURIComponent(nugetAudience)}`;
         core.info(`Requesting GitHub OIDC token from: ${tokenUrl}`);
 
@@ -28,6 +31,7 @@ async function run(): Promise<void> {
         }
 
         const oidcToken: string = tokenResponse.result.value;
+        core.setSecret(oidcToken);
 
         // Build the request body
         const body: string = JSON.stringify({
