@@ -47,14 +47,16 @@ async function run(): Promise<void> {
         };
 
         const tokenServiceHttpClient: httpm.HttpClient = new httpm.HttpClient();
-        const response: httpm.HttpClientResponse = await tokenServiceHttpClient.post(nugetTokenServiceUrl, body, headers);
+        const response: httpm.HttpClientResponse = await tokenServiceHttpClient.post(nugetTokenServiceUrl, body, headers);}
+
+        const responseBody = await response.readBody();
+        console.log(responseBody);        
 
         if (response.message.statusCode !== 200) {
-            const errorBody = await response.readBody();
             let errorMessage = `Token exchange failed (${response.message.statusCode})`;
 
             try {
-                const errorJson = JSON.parse(errorBody);
+                const errorJson = JSON.parse(responseBody);
                 if (errorJson && typeof errorJson.error === 'string') {
                     errorMessage += `: ${errorJson.error}`;
                 } else {
@@ -65,9 +67,7 @@ async function run(): Promise<void> {
             }
 
             throw new Error(errorMessage);
-        }
-
-        const responseBody = await response.readBody();
+        
 
         const data: { apiKey?: string } = JSON.parse(responseBody);
         if (!data.apiKey) {
