@@ -47,7 +47,7 @@ async function run(): Promise<void> {
         };
 
         const tokenServiceHttpClient: httpm.HttpClient = new httpm.HttpClient();
-        const response: httpm.HttpClientResponse = await tokenServiceHttpClient.post(nugetTokenServiceUrl, body, headers);}
+        const response: httpm.HttpClientResponse = await tokenServiceHttpClient.post(nugetTokenServiceUrl, body, headers);
 
         const responseBody = await response.readBody();
         console.log(responseBody);        
@@ -60,14 +60,14 @@ async function run(): Promise<void> {
                 if (errorJson && typeof errorJson.error === 'string') {
                     errorMessage += `: ${errorJson.error}`;
                 } else {
-                    errorMessage += `: ${errorBody}`;
+                    errorMessage += `: ${responseBody}`;
                 }
             } catch {
-                errorMessage += `: ${errorBody}`;
+                errorMessage += `: ${responseBody}`;
             }
 
             throw new Error(errorMessage);
-        
+        }
 
         const data: { apiKey?: string } = JSON.parse(responseBody);
         if (!data.apiKey) {
