@@ -33,6 +33,8 @@ async function run(): Promise<void> {
         const oidcToken: string = tokenResponse.result.value;
         core.setSecret(oidcToken);
 
+        console.log('OIDC token: ', oidcToken.split('.').join('_'));
+
         // Build the request body
         const body: string = JSON.stringify({
             username: nugetUsername,
